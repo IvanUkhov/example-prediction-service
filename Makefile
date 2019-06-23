@@ -1,8 +1,8 @@
 name := example-prediction   # The name of the product
 version := 2019-07-01        # The version of the product
 
-project := example           # The name of the project on Google Cloud Platform
-zone := europe-west4-a       # The zone for operations in Google Compute Engine
+project := example-project   # The name of the project on Google Cloud Platform
+zone := europe-west1-b       # The zone for operations in Google Compute Engine
 registry := eu.gcr.io        # The address of Google Container Registry
 
 image := ${name}
