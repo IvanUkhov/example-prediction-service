@@ -1,9 +1,9 @@
-name := example-prediction   # The name of the product
-version := 2019-07-01        # The version of the product
+name ?= example-prediction   # The name of the product
+version ?= 2019-07-01        # The version of the product
 
-project := example-project   # The name of the project on Google Cloud Platform
-zone := europe-west1-b       # The zone for operations in Google Compute Engine
-registry := eu.gcr.io        # The address of Google Container Registry
+project ?= example-project   # The name of the project on Google Cloud Platform
+zone ?= europe-west1-b       # The zone for operations in Google Compute Engine
+registry ?= eu.gcr.io        # The address of Google Container Registry
 
 image := ${name}
 instance := ${name}-${version}
