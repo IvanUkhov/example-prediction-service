@@ -1,0 +1,5 @@
+{
+  "data_path": "source/data/application.csv",
+  "model_path": "output/model.pickle",
+  "output_path": "output"
+}

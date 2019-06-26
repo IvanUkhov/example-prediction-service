@@ -1,0 +1,4 @@
+{
+  "data_path": "source/data/training.csv",
+  "output_path": "output"
+}
