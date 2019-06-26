@@ -23,7 +23,6 @@ function save() {
 }
 
 function process_application() {
-  source activate py3env
   export PYTHONPATH="source:${PYTHONPATH}"
   local stamp=$(date '+%Y-%m-%d')
   local input=$(gsutil ls gs://${NAME}/${VERSION}/training 2> /dev/null | sort | tail -1)
@@ -35,7 +34,6 @@ function process_application() {
 }
 
 function process_training() {
-  source activate py3env
   export PYTHONPATH="source:${PYTHONPATH}"
   local stamp=$(date '+%Y-%m-%d')
   local output="gs://${NAME}/${VERSION}/training/${stamp}"

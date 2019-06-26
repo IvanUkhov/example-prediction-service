@@ -2,29 +2,18 @@
 
 set -e
 
-function process_container() {
-  while true; do
-    wait
-  done
-}
-
 function process_instance() {
   local instance=${1}
   local zone=${2}
-  echo 'Waiting for the instance to start...'
-  local count=10
+  echo 'Waiting for the instance to finish...'
   while true; do
     local result=$(
-      gcloud compute scp --zone ${zone} \
-        "${BASH_SOURCE[0]}" ${instance}:/tmp/wait.sh &> /dev/null
+      gcloud compute instances describe --zone ${zone} ${instance} > /dev/null 2>&1
       echo $?
     )
-    [ ${result} == 0 ] && break || ((count--))
-    [ ${count} == 0 ] && exit 1
+    [ ${result} != 0 ] && exit 0
     wait
   done
-  echo 'Waiting for the instance to finish...'
-  gcloud compute ssh --zone ${zone} ${instance} -- source /tmp/wait.sh container
 }
 
 function process_success() {
