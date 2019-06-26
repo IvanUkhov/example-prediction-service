@@ -19,6 +19,7 @@ build:
 	docker rmi ${image} 2> /dev/null || true
 	docker build --file container/Dockerfile --tag ${image} .
 	docker tag ${image} ${registry}/${project}/${image}:${version}
+	docker push ${registry}/${project}/${image}:${version}
 
 log:
 	open 'https://console.cloud.google.com/logs/viewer?project=${project}&advancedFilter=logName:%22${name}%22%20OR%0AjsonPayload.instance.name:%22${name}%22'
@@ -29,7 +30,7 @@ $(1)-check:
 
 $(1)-start:
 	gcloud compute instances create-with-container ${instance}-$(1) \
-		--container-env NAME=${name},VERSION=${version},ZONE=${zone},ACTION=$(1) \
+		--container-env NAME=${name},VERSION=${version},ACTION=$(1),ZONE=${zone} \
 		--container-image ${registry}/${project}/${image}:${version} \
 		--container-restart-policy never \
 		--machine-type n1-standard-1 \
