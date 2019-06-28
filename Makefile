@@ -44,7 +44,7 @@ $(1)-wait:
 .PHONY: $(1)-check $(1)-start $(1)-wait
 endef
 
-$(eval $(call action,application))
 $(eval $(call action,training))
+$(eval $(call action,application))
 
 .PHONY: all build log
