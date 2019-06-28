@@ -11,7 +11,7 @@ function delete() {
 }
 
 function info() {
-  # Write a message into a Stackdriver log called "${NAME}-${VERSION}-${ACTION}"
+  # Write into a Stackdriver log called "${NAME}-${VERSION}-${ACTION}"
   gcloud logging write "${NAME}-${VERSION}-${ACTION}" "${1}"
 }
 
