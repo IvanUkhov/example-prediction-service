@@ -3,6 +3,7 @@
 set -e
 
 function delete() {
+  # Delete a Compute Engine instance called "${NAME}-${VERSION}-${ACTION}"
   gcloud compute instances delete "${NAME}-${VERSION}-${ACTION}" \
     --delete-disks all \
     --zone ${ZONE} \
@@ -10,12 +11,13 @@ function delete() {
 }
 
 function info() {
+  # Write a message into a Stackdriver log called "${NAME}-${VERSION}-${ACTION}"
   gcloud logging write "${NAME}-${VERSION}-${ACTION}" "${1}"
 }
 
 function load() {
-  mkdir -p output
   # Sync the content of a location in a bucket with the output directory
+  mkdir -p output
   gsutil -m rsync -r "${1}" output
 }
 
