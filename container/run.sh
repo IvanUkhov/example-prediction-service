@@ -66,7 +66,7 @@ function process_application() {
   save "${output}"
 }
 
-# Invoke the delete function when the scripts exits regardless of the reason
+# Invoke the delete function when the script exits regardless of the reason
 trap delete EXIT
 # Report a successful start to Stackdriver
 info "Running action '${ACTION}'..."
