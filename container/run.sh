@@ -2,30 +2,6 @@
 
 set -e
 
-function delete() {
-  # Delete a Compute Engine instance called "${NAME}-${VERSION}-${ACTION}"
-  gcloud compute instances delete "${NAME}-${VERSION}-${ACTION}" \
-    --delete-disks all \
-    --zone ${ZONE} \
-    --quiet
-}
-
-function info() {
-  # Write into a Stackdriver log called "${NAME}-${VERSION}-${ACTION}"
-  gcloud logging write "${NAME}-${VERSION}-${ACTION}" "${1}"
-}
-
-function load() {
-  # Sync the content of a location in a bucket with the output directory
-  mkdir -p output
-  gsutil -m rsync -r "${1}" output
-}
-
-function save() {
-  # Sync the content of the output directory with a location in a bucket
-  gsutil -m rsync -r output "${1}"
-}
-
 function process_training() {
   # Make Python be able to find the prediction package in the source directory
   export PYTHONPATH="source:${PYTHONPATH}"
@@ -64,6 +40,30 @@ function process_application() {
     --config configs/application.json
   # Copy the result to the output location in Cloud Storage
   save "${output}"
+}
+
+function delete() {
+  # Delete a Compute Engine instance called "${NAME}-${VERSION}-${ACTION}"
+  gcloud compute instances delete "${NAME}-${VERSION}-${ACTION}" \
+    --delete-disks all \
+    --zone ${ZONE} \
+    --quiet
+}
+
+function info() {
+  # Write into a Stackdriver log called "${NAME}-${VERSION}-${ACTION}"
+  gcloud logging write "${NAME}-${VERSION}-${ACTION}" "${1}"
+}
+
+function load() {
+  # Sync the content of a location in a bucket with the output directory
+  mkdir -p output
+  gsutil -m rsync -r "${1}" output
+}
+
+function save() {
+  # Sync the content of the output directory with a location in a bucket
+  gsutil -m rsync -r output "${1}"
 }
 
 # Invoke the delete function when the script exits regardless of the reason
