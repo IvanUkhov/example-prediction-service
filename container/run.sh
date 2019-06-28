@@ -44,7 +44,7 @@ function process_training() {
   save "${output}"
 }
 
-# Invoke the delete function where the scripts exits regardless of the reason
+# Invoke the delete function when the scripts exits regardless of the reason
 trap delete EXIT
 # Report a successful start to Stackdriver
 info "Running action '${ACTION}'..."
