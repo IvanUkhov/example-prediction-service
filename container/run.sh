@@ -15,12 +15,12 @@ function info() {
 
 function load() {
   mkdir -p output
-  # Sync the content of a folder in a bucket with the output directory
+  # Sync the content of a location in a bucket with the output directory
   gsutil -m rsync -r "${1}" output
 }
 
 function save() {
-  # Sync the content of the output directory with a folder in a bucket
+  # Sync the content of the output directory with a location in a bucket
   gsutil -m rsync -r output "${1}"
 }
 
