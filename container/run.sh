@@ -50,11 +50,6 @@ function delete() {
     --quiet
 }
 
-function info() {
-  # Write into a Stackdriver log called "${NAME}-${VERSION}-${ACTION}"
-  gcloud logging write "${NAME}-${VERSION}-${ACTION}" "${1}"
-}
-
 function load() {
   # Sync the content of a location in a bucket with the output directory
   mkdir -p output
@@ -66,12 +61,17 @@ function save() {
   gsutil -m rsync -r output "${1}"
 }
 
+function send() {
+  # Write into a Stackdriver log called "${NAME}-${VERSION}-${ACTION}"
+  gcloud logging write "${NAME}-${VERSION}-${ACTION}" "${1}"
+}
+
 # Invoke the delete function when the script exits regardless of the reason
 trap delete EXIT
 
 # Report a successful start to Stackdriver
-info 'Running the action...'
+send 'Running the action...'
 # Invoke the function specified by the ACTION environment variable
 "process_${ACTION}"
 # Report a successful completion to Stackdriver
-info 'Well done.'
+send 'Well done.'
