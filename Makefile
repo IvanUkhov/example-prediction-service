@@ -5,9 +5,9 @@ version ?= 2019-00-00
 
 # The name of the project on Google Cloud Platform
 project ?= example-project
-# The zone for operations in Google Compute Engine
+# The zone for operations in Compute Engine
 zone ?= europe-west1-b
-# The address of Google Container Registry
+# The address of Container Registry
 registry ?= eu.gcr.io
 
 # The name of the Docker image
