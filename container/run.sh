@@ -71,7 +71,7 @@ function ingest() {
 }
 
 function load() {
-  # Sync the content of a location in a bucket with a local directory
+  # Sync the content of a location in Cloud Storage with a local directory
   local input="${1}"
   local output="${2}"
   mkdir -p "${output}"
@@ -79,7 +79,7 @@ function load() {
 }
 
 function save() {
-  # Sync the content of a local directory with a location in a bucket
+  # Sync the content of a local directory with a location in Cloud Storage
   local input="${1}"
   local output="${2}"
   gsutil -m rsync -r "${input}" "${output}"
