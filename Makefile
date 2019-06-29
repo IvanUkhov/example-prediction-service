@@ -1,10 +1,10 @@
-# The name of the product
-name ?= example-prediction
-# The version of the product
+# The name of the service
+name ?= example-prediction-service
+# The version of the service
 version ?= 2019-00-00
 
 # The name of the project on Google Cloud Platform
-project ?= example-project
+project ?= example-cloud-project
 # The zone for operations in Compute Engine
 zone ?= europe-west1-b
 # The address of Container Registry
