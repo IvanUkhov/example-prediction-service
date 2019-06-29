@@ -8,11 +8,11 @@ function process_training() {
   # Generate a timestamp for the current run
   local stamp=$(date '+%Y-%m-%d')
   # Define the output location in Cloud Storage
-  local output="gs://${NAME}/${VERSION}/training/${stamp}"
+  local output="gs://${NAME}/${VERSION}/${ACTION}/${stamp}"
   # Invoke training
   python -m prediction.main \
-    --action training \
-    --config configs/training.json
+    --action "${ACTION}" \
+    --config "configs/${ACTION}.json"
   # Copy the result to the output location in Cloud Storage
   save "${output}"
 }
@@ -29,15 +29,15 @@ function process_application() {
     tail -1
   )
   # Define the output location in Cloud Storage
-  local output="gs://${NAME}/${VERSION}/application/${stamp}"
+  local output="gs://${NAME}/${VERSION}/${ACTION}/${stamp}"
   # Copy the model from the input location in Cloud Storage
   load "${input}"
   # Copy the model to the output location in Cloud Storage
   save "${output}"
   # Invoke application
   python -m prediction.main \
-    --action application \
-    --config configs/application.json
+    --action "${ACTION}" \
+    --config "configs/${ACTION}.json"
   # Copy the result to the output location in Cloud Storage
   save "${output}"
 }
