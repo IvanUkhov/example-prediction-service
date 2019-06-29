@@ -46,7 +46,7 @@ function delete() {
   # Delete a Compute Engine instance called "${NAME}-${VERSION}-${ACTION}"
   gcloud compute instances delete "${NAME}-${VERSION}-${ACTION}" \
     --delete-disks all \
-    --zone ${ZONE} \
+    --zone "${ZONE}" \
     --quiet
 }
 
