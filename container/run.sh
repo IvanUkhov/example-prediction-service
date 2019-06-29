@@ -14,7 +14,7 @@ function process_training() {
     --action ${ACTION} \
     --config configs/${ACTION}.json
   # Copy the result to the output location in Cloud Storage
-  save ${output}
+  save output ${output}
 }
 
 function process_application() {
@@ -31,15 +31,21 @@ function process_application() {
   # Define the output location in Cloud Storage
   local output=gs://${NAME}/${VERSION}/${ACTION}/${timestamp}
   # Copy the model from the input location in Cloud Storage
-  load ${input}
+  load ${input} output
   # Copy the model to the output location in Cloud Storage
-  save ${output}
+  save output ${output}
   # Invoke application
   python -m prediction.main \
     --action ${ACTION} \
     --config configs/${ACTION}.json
   # Copy the result to the output location in Cloud Storage
-  save ${output}
+  save output ${output}
+  # Define the input location in Cloud Storage for ingesting into BigQuery
+  local input=${output}/predictions.csv
+  # Define the output table in BigQuery
+  local output=$(echo ${NAME} | tr - _).predictions
+  # Ingest the result into the output table in BigQuery
+  ingest ${input} ${output} player_id:STRING,label:BOOL
 }
 
 function delete() {
@@ -50,20 +56,39 @@ function delete() {
     --quiet
 }
 
+function ingest() {
+  # Ingest a file from Cloud Storage into a table in BigQuery
+  local input="${1}"
+  local output="${2}"
+  local schema="${3}"
+  bq load \
+    --source_format CSV \
+    --skip_leading_rows 1 \
+    --replace \
+    ${output} \
+    ${input} \
+    ${schema}
+}
+
 function load() {
-  # Sync the content of a location in a bucket with the output directory
-  mkdir -p output
-  gsutil -m rsync -r "${1}" output
+  # Sync the content of a location in a bucket with a local directory
+  local input="${1}"
+  local output="${2}"
+  mkdir -p "${output}"
+  gsutil -m rsync -r "${input}" "${output}"
 }
 
 function save() {
-  # Sync the content of the output directory with a location in a bucket
-  gsutil -m rsync -r output "${1}"
+  # Sync the content of a local directory with a location in a bucket
+  local input="${1}"
+  local output="${2}"
+  gsutil -m rsync -r "${input}" "${output}"
 }
 
 function send() {
   # Write into a Stackdriver log called "${NAME}-${VERSION}-${ACTION}"
-  gcloud logging write ${NAME}-${VERSION}-${ACTION} "${1}"
+  local message="${1}"
+  gcloud logging write ${NAME}-${VERSION}-${ACTION} "${message}"
 }
 
 # Invoke the delete function when the script exits regardless of the reason
