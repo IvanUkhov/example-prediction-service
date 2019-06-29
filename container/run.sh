@@ -40,7 +40,7 @@ function process_application() {
     --config configs/${ACTION}.json
   # Copy the result to the output location in Cloud Storage
   save output ${output}
-  # Define the input location in Cloud Storage for ingesting into BigQuery
+  # Define the input location in Cloud Storage
   local input=${output}/predictions.csv
   # Define the output table in BigQuery
   local output=$(echo ${NAME} | tr - _).predictions
