@@ -44,5 +44,5 @@ function wait() {
 }
 
 # Invoke the function specified by the first command-line argument and forward
-# the rest of the arguments
-"process_${1}" ${@:2:10}
+# the rest of the arguments to this function
+process_${1} ${@:2:10}
