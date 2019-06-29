@@ -10,7 +10,9 @@ zone ?= europe-west1-b
 # The address of Google Container Registry
 registry ?= eu.gcr.io
 
+# The name of the Docker image
 image := ${name}
+# The name of the instance excluding the action
 instance := ${name}-${version}
 
 all: log
@@ -30,8 +32,11 @@ $(1)-check:
 
 $(1)-start:
 	gcloud compute instances create-with-container ${instance}-$(1) \
-		--container-env NAME=${name},VERSION=${version},ACTION=$(1),ZONE=${zone} \
 		--container-image ${registry}/${project}/${image}:${version} \
+		--container-env NAME=${name} \
+		--container-env VERSION=${version} \
+		--container-env ACTION=$(1) \
+		--container-env ZONE=${zone} \
 		--container-restart-policy never \
 		--machine-type n1-standard-1 \
 		--no-restart-on-failure \
