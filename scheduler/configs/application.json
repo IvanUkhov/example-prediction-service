@@ -4,7 +4,7 @@
   },
   "airflow": {
     "dag_id": "example-prediction-service-application",
-    "schedule_interval": "30 8 * * *",
+    "schedule_interval": "0 7 * * *",
     "start_date": "2019-07-01",
     "default_args": {
       "owner": "data-science",
