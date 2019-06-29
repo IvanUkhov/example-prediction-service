@@ -26,13 +26,12 @@ build:
 log:
 	open 'https://console.cloud.google.com/logs/viewer?project=${project}&advancedFilter=logName:%22${name}%22%20OR%0AjsonPayload.instance.name:%22${name}%22'
 
-define action
-$(1)-start:
-	gcloud compute instances create-with-container ${instance}-$(1) \
+%-start:
+	gcloud compute instances create-with-container ${instance}-$* \
 		--container-image ${registry}/${project}/${image}:${version} \
 		--container-env NAME=${name} \
 		--container-env VERSION=${version} \
-		--container-env ACTION=$(1) \
+		--container-env ACTION=$* \
 		--container-env ZONE=${zone} \
 		--container-restart-policy never \
 		--machine-type n1-standard-1 \
@@ -40,16 +39,10 @@ $(1)-start:
 		--scopes default,bigquery,compute-rw,storage-rw \
 		--zone ${zone}
 
-$(1)-wait:
-	container/wait.sh instance ${instance}-$(1) ${zone}
+%-wait:
+	container/wait.sh instance ${instance}-$* ${zone}
 
-$(1)-check:
-	container/wait.sh success ${instance}-$(1)
-
-.PHONY: $(1)-start $(1)-wait $(1)-check
-endef
-
-$(eval $(call action,training))
-$(eval $(call action,application))
+%-check:
+	container/wait.sh success ${instance}-$*
 
 .PHONY: all build log
