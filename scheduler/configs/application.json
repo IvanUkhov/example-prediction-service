@@ -1,0 +1,34 @@
+{
+  "project": {
+    "name": "example-cloud-project"
+  },
+  "airflow": {
+    "dag_id": "example-prediction-service-application",
+    "schedule_interval": "30 8 * * *",
+    "start_date": "2019-07-01",
+    "default_args": {
+      "owner": "data-science",
+      "depends_on_past": false,
+      "retries": 0
+    },
+    "catchup": false
+  },
+  "tasks": [
+    {
+      "name": "start",
+      "code": "make -C '${ROOT}/..' training-start"
+    },
+    {
+      "name": "wait",
+      "code": "make -C '${ROOT}/..' training-wait"
+    },
+    {
+      "name": "check",
+      "code": "make -C '${ROOT}/..' training-check"
+    }
+  ],
+  "dependencies": [
+    ["wait", "start"],
+    ["check", "wait"]
+  ]
+}
