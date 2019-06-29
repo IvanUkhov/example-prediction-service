@@ -68,8 +68,9 @@ function save() {
 
 # Invoke the delete function when the script exits regardless of the reason
 trap delete EXIT
+
 # Report a successful start to Stackdriver
-info "Running action '${ACTION}'..."
+info 'Running the action...'
 # Invoke the function specified by the ACTION environment variable
 "process_${ACTION}"
 # Report a successful completion to Stackdriver
