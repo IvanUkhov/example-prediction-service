@@ -1,7 +1,7 @@
 # The name of the service
 name ?= example-prediction-service
 # The version of the service
-version ?= 2019-00-00
+version ?= 2019-07-01
 
 # The name of the project on Google Cloud Platform
 project ?= example-cloud-project
