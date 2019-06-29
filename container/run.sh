@@ -6,9 +6,9 @@ function process_training() {
   # Make Python be able to find the prediction package in the source directory
   export PYTHONPATH="source:${PYTHONPATH}"
   # Generate a timestamp for the current run
-  local stamp=$(date '+%Y-%m-%d')
+  local timestamp=$(date '+%Y-%m-%d')
   # Define the output location in Cloud Storage
-  local output="gs://${NAME}/${VERSION}/${ACTION}/${stamp}"
+  local output="gs://${NAME}/${VERSION}/${ACTION}/${timestamp}"
   # Invoke training
   python -m prediction.main \
     --action "${ACTION}" \
@@ -21,7 +21,7 @@ function process_application() {
   # Make Python be able to find the prediction package in the source directory
   export PYTHONPATH="source:${PYTHONPATH}"
   # Generate a timestamp for the current run
-  local stamp=$(date '+%Y-%m-%d')
+  local timestamp=$(date '+%Y-%m-%d')
   # Find the latest trained model in Cloud Storage
   local input=$(
     gsutil ls "gs://${NAME}/${VERSION}/training" 2> /dev/null |
@@ -29,7 +29,7 @@ function process_application() {
     tail -1
   )
   # Define the output location in Cloud Storage
-  local output="gs://${NAME}/${VERSION}/${ACTION}/${stamp}"
+  local output="gs://${NAME}/${VERSION}/${ACTION}/${timestamp}"
   # Copy the model from the input location in Cloud Storage
   load "${input}"
   # Copy the model to the output location in Cloud Storage
