@@ -1,7 +1,4 @@
 {
-  "project": {
-    "name": "example-cloud-project"
-  },
   "airflow": {
     "dag_id": "example-prediction-service-training",
     "schedule_interval": "0 0 1 * *",
