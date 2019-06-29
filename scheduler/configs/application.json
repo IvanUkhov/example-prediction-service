@@ -16,15 +16,15 @@
   "tasks": [
     {
       "name": "start",
-      "code": "make -C '${ROOT}/..' training-start"
+      "code": "make -C '${ROOT}/..' application-start"
     },
     {
       "name": "wait",
-      "code": "make -C '${ROOT}/..' training-wait"
+      "code": "make -C '${ROOT}/..' application-wait"
     },
     {
       "name": "check",
-      "code": "make -C '${ROOT}/..' training-check"
+      "code": "make -C '${ROOT}/..' application-check"
     }
   ],
   "dependencies": [
