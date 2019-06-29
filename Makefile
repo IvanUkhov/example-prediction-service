@@ -34,8 +34,8 @@ log:
 		--container-env ACTION=$* \
 		--container-env ZONE=${zone} \
 		--container-restart-policy never \
-		--machine-type n1-standard-1 \
 		--no-restart-on-failure \
+		--machine-type n1-standard-1 \
 		--scopes default,bigquery,compute-rw,storage-rw \
 		--zone ${zone}
 
