@@ -25,13 +25,14 @@ def configure():
 
     # Extract the directory containing the current file
     path = os.path.dirname(__file__)
-    # Extract the name of the current file without the extension
+    # Extract the name of the current file without its extension
     name = os.path.splitext(os.path.basename(__file__))[0]
     # Load the configuration file corresponding to the extracted name
     config = os.path.join(path, 'configs', name + '.json')
     config = json.loads(open(config).read())
     # Replace all occurrences of “${ROOT}” with the current directory
-    return _parameterize(config, {'${ROOT}': path})
+    config = _parameterize(config, {'${ROOT}': path})
+    return config
 
 
 def construct(config):
@@ -45,10 +46,10 @@ def construct(config):
 
     # Construct an empty graph
     graph = _construct_graph(**config['airflow'])
-    # Construct tasks according to the configuration file
+    # Construct the specified tasks
     tasks = [_construct_task(graph, **task) for task in config['tasks']]
     tasks = dict([(task.task_id, task) for task in tasks])
-    # Enforce dependencies between the tasks according to the configuration file
+    # Enforce the specified dependencies between the tasks
     for child, parent in config['dependencies']:
         tasks[parent].set_downstream(tasks[child])
     return graph
