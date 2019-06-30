@@ -48,13 +48,14 @@ def construct(config):
     # Construct tasks according to the configuration file
     tasks = [_construct_task(graph, **task) for task in config['tasks']]
     tasks = dict([(task.task_id, task) for task in tasks])
-    # Enforce dependencies between tasks according to the configuration file
+    # Enforce dependencies between the tasks according to the configuration file
     for child, parent in config['dependencies']:
         tasks[parent].set_downstream(tasks[child])
     return graph
 
 
 try:
+    # Load an appropriate configuration file and construct a graph accordingly
     graph = construct(configure())
     if __name__ == '__main__':
         graph.cli()
