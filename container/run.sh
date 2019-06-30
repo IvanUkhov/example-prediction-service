@@ -47,7 +47,7 @@ function process_application() {
 }
 
 function delete() {
-  # Delete a Compute Engine instance called "${NAME}-${VERSION}-${ACTION}"
+  # Delete a Compute Engine instance called “${NAME}-${VERSION}-${ACTION}”
   gcloud compute instances delete ${NAME}-${VERSION}-${ACTION} \
     --delete-disks all \
     --zone ${ZONE} \
@@ -84,7 +84,7 @@ function save() {
 }
 
 function send() {
-  # Write into a Stackdriver log called "${NAME}-${VERSION}-${ACTION}"
+  # Write into a Stackdriver log called “${NAME}-${VERSION}-${ACTION}”
   local message="${1}"
   gcloud logging write ${NAME}-${VERSION}-${ACTION} "${message}"
 }
