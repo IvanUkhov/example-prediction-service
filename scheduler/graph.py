@@ -45,7 +45,7 @@ def construct(config):
         return BashOperator(task_id=name, bash_command=code, dag=graph)
 
     # Construct an empty graph
-    graph = _construct_graph(**config['airflow'])
+    graph = _construct_graph(**config['graph'])
     # Construct the specified tasks
     tasks = [_construct_task(graph, **task) for task in config['tasks']]
     tasks = dict([(task.task_id, task) for task in tasks])

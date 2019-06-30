@@ -1,5 +1,5 @@
 {
-  "airflow": {
+  "graph": {
     "dag_id": "example-prediction-service-training",
     "schedule_interval": "0 0 1 * *",
     "start_date": "2019-07-01",
