@@ -7,13 +7,13 @@ function process_training() {
   export PYTHONPATH="source:${PYTHONPATH}"
   # Generate a timestamp for the current run
   local timestamp=$(date '+%Y-%m-%d')
-  # Define the output location in Cloud Storage
-  local output=gs://${NAME}/${VERSION}/${ACTION}/${timestamp}
   # Invoke training
   python -m prediction.main \
     --action ${ACTION} \
     --config configs/${ACTION}.json
-  # Copy the result to the output location in Cloud Storage
+  # Set the output location in Cloud Storage
+  local output=gs://${NAME}/${VERSION}/${ACTION}/${timestamp}
+  # Copy the trained model from the output directory to Cloud Storage
   save output ${output}
 }
 
@@ -28,23 +28,21 @@ function process_application() {
     sort |
     tail -1
   )
-  # Define the output location in Cloud Storage
-  local output=gs://${NAME}/${VERSION}/${ACTION}/${timestamp}
-  # Copy the model from the input location in Cloud Storage
+  # Copy the trained model from Cloud Storage to the output directory
   load ${input} output
-  # Copy the model to the output location in Cloud Storage
-  save output ${output}
   # Invoke application
   python -m prediction.main \
     --action ${ACTION} \
     --config configs/${ACTION}.json
-  # Copy the result to the output location in Cloud Storage
+  # Set the output location in Cloud Storage
+  local output=gs://${NAME}/${VERSION}/${ACTION}/${timestamp}
+  # Copy the predictions from the output directory to Cloud Storage
   save output ${output}
-  # Define the input file in Cloud Storage
+  # Set the input file in Cloud Storage
   local input=${output}/predictions.csv
-  # Define the output table in BigQuery
+  # Set the output data set and table in BigQuery
   local output=$(echo ${NAME} | tr - _).predictions
-  # Ingest the result into the output table in BigQuery
+  # Ingest the predictions from Cloud Storage into BigQuery
   ingest ${input} ${output} player_id:STRING,label:BOOL
 }
 
