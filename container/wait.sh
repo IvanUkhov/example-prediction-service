@@ -26,7 +26,7 @@ function process_success() {
   while true; do
     # Check if the last entry in Stackdriver contains “Well done”
     local result=$(
-      gcloud logging read --limit 1 "logName:${instance}" |
+      gcloud logging read --limit 1 logName:${instance} |
       grep 'Well done' |
       wc -l
     )
