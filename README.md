@@ -28,7 +28,7 @@ make application-start application-wait application-check
 In order to schedule training and application using Airflow, run
 
 ```bash
-git clone https://github.com/IvanUkhov/example-prediction-service.git "${AIRFLOW_HOME}/dags"
+git clone https://github.com/chain-rule/example-prediction-service.git "${AIRFLOW_HOME}/dags"
 ```
 
 [article]: https://blog.ivanukhov.com/2019/07/01/orchestration.html
