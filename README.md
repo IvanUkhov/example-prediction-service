@@ -1,4 +1,4 @@
-# Example Prediction Service
+# Example: Prediction Service
 
 See “[A poor man’s orchestration of predictive models, or do it
 yourself][article]” for further details.
